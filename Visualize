@@ -1,0 +1,136 @@
+//making an image
+
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "log"
+    "os"
+    "image/color"
+    "code.google.com/p/draw2d/draw2d"
+    "image"
+    "image/png"
+    "math"
+    "math/rand"
+    "time"
+)
+
+const (
+    x, y = 640, 480
+)
+
+func saveToPngFile(filePath string, m image.Image) {
+    f, err := os.Create(filePath)
+    if err != nil {
+        log.Println(err)
+        os.Exit(1)
+    }
+    defer f.Close()
+    b := bufio.NewWriter(f)
+    err = png.Encode(b, m)
+    if err != nil {
+        log.Println(err)
+        os.Exit(1)
+    }
+    err = b.Flush()
+    if err != nil {
+        log.Println(err)
+        os.Exit(1)
+    }
+    fmt.Printf("Wrote %s OK.\n", filePath)
+}
+
+func initGc(x, y int) (image.Image, draw2d.GraphicContext) {
+    i := image.NewRGBA(image.Rect(0, 0, x, y))
+    gc := draw2d.NewGraphicContext(i)
+    return i, gc
+}
+
+func makeBackground() {
+    //Define some colors for use
+    Blue := color.RGBA{0, 0, 255, 255}
+
+    //Create i and gc variables to draw things and save image
+    i, gc := initGc(x, y)    //Make the background blue
+    gc.MoveTo(0,y/2)
+    gc.LineTo(x, y/2)
+    gc.SetLineWidth(y)
+    gc.SetStrokeColor(Blue)
+    gc.SetFillColor(Blue)
+    gc.Stroke()
+    gc.FillStroke()
+
+    //Horizontal axis
+    gc.MoveTo(0, y)
+    gc.LineTo(x, y)
+    gc.SetLineWidth(10)
+    gc.SetStrokeColor(image.White)
+    gc.SetFillColor(image.White)
+    gc.Stroke()
+    gc.FillStroke()
+
+    //Vertical axis
+    gc.MoveTo(0, y)
+    gc.LineTo(0, 0)
+    gc.SetLineWidth(10)
+    gc.SetStrokeColor(image.White)
+    gc.SetFillColor(image.White)
+    gc.Stroke()
+    gc.FillStroke()
+
+    makePoints(i, gc)
+}
+
+func makePoints(i image.Image, gc draw2d.GraphicContext) {
+    Red  := color.RGBA{255, 0, 0, 255}
+    var jarr [5]int
+    var karr [5]int
+
+    rand.Seed(int64(time.Time.Now())
+
+    for z := 0; z < 5; z++ {
+        j := rand.Int()
+        if j > 640 {
+            for j > 640 {
+                j = j % 640
+            }
+        }
+        k := rand.Int()
+        if k > 480 {
+            for k > 480 {
+                k = k % 480
+            }
+        }
+        jarr[z] = j
+        karr[z] = k
+        createNe   }
+
+    for y := 1; y < 5; y++ {
+        gc.MoveTo(float64(jarr[y-1]), float64(karr[y-1]))
+        gc.LineTo(float64(jarr[y]), float64(karr[y]))
+        gc.SetLineWidth(2)
+        gc.SetStrokeColor(Red)
+        gc.SetFillColor(Red)
+        gc.Stroke()
+        gc.FillStroke()
+    }
+
+    saveToPngFile("Testpath.png", i)
+}
+
+func createNewPoint(gc draw2d.GraphicContext, j, k int) {
+    //make the point here
+    gc.ArcTo(float64(j), float64(k), 3, 3, 0, math.Pi * 2)
+        //j, k will be random points in the right area later
+    gc.Stroke()
+    gc.SetFillColor(image.White)
+    gc.FillStroke()
+}
+
+
+func main() {
+    makeBackground()
+}
+Point(gc, j, k)
+
